@@ -17,3 +17,9 @@ pt_BR:
       predictive_cleansing: Bloqueado pela limpeza preditiva
       international_sending: Envio internacional bloqueado
       unknown_error: Erro desconhecido
+    'zenvia/status_code':
+      ok: Ok
+      scheduled: Agendado
+      sent: Enviado
+      delivered: Entregue
+      not_received: Não Recebido

@@ -1,26 +1,29 @@
 module Zenvia
   class Request
-    BASE_URL  = "http://www.zenvia360.com.br"
-    POST_PATH = "/GatewayIntegration/msgSms.do"
+    include HTTParty
 
-    attr_reader :params, :response
+    base_uri 'https://api-rest.zenvia360.com.br'
+    SEND_PATH = "/services/send-sms"
 
-    def initialize
-      session.base_url        = BASE_URL
-      session.timeout         = Zenvia.config.timeout
-      session.connect_timeout = Zenvia.config.connect_timeout
+    attr_reader :default_options, :params, :response
+
+    def initialize(username, password)
+      @default_options = {
+        basic_auth: { username: username, password: password },
+        headers: {"Content-Type" => "application/json", "Accept" => "application/json"}
+      }
     end
 
-    def post(params)
-      @params   = params
-      @response = session.post POST_PATH, parse_params
-
+    def send(options)
+      options.merge!(default_options)
+      @response = self.class.post(SEND_PATH, options)
       parse_response
     end
 
     private
 
     def parse_response
+      debugger
       code, message = response.body.split " - "
       raise Error, message if code != "000"
 
@@ -37,10 +40,6 @@ module Zenvia
         id:             params[:id],
         callbackOption: params[:callback_option]
       }
-    end
-
-    def session
-      @session ||= Patron::Session.new
     end
   end
 end

@@ -3,6 +3,7 @@ $:.unshift File.expand_path('../lib', __dir__)
 require 'i18n'
 require 'active_support/inflector'
 require 'enumerate_it'
+require 'httparty'
 
 I18n.load_path += Dir[File.expand_path('../config/locales/*.yml', __dir__)]
 
