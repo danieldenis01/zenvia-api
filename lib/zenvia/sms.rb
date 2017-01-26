@@ -13,8 +13,8 @@ module Zenvia
       self.password = params[:password] || Zenvia.config.password
     end
 
-    def send
-      request.send post_params
+    def perform
+      request.perform post_params
     end
 
     private
