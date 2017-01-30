@@ -32,7 +32,7 @@ module Zenvia
     end
 
     def basic_auth_encoded
-      Base64.encode64("#{username}:#{password}")
+      Base64.encode64("#{username}:#{password}").gsub("\n", "")
     end
 
     private
