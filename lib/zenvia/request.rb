@@ -20,7 +20,7 @@ module Zenvia
       parse_response
     end
 
-    def check_sms_stauts(sms_id)
+    def check_status(sms_id)
       options = default_options.dup
       options.merge! headers: {"Accept" => "application/json"}
       @response = self.class.get("/get-sms-status/#{sms_id}", options)
