@@ -4,35 +4,27 @@ module Zenvia
 
     base_uri 'https://api-rest.zenvia360.com.br/services/'
     SEND_PATH = "/send-sms"
-    GET_STATUS_PATH = "/get-sms-status"
 
-    attr_reader :default_options, :params, :response, :username, :password
+    attr_reader :default_options, :params, :response
 
     def initialize(username, password)
-      @username = username
-      @password = password
       @default_options = {
-        headers: {
-          "Content-Type" => "application/json",
-          "Accept" => "application/json",
-          "Authorization" => "Basic #{basic_auth_encoded}"
-        }
+        basic_auth: { username: username, password: password }
       }
     end
 
     def perform(options)
-      options.merge!(default_options)
+      options.merge! default_options
+      options.merge! headers: {"Content-Type" => "application/json", "Accept" => "application/json"}
       @response = self.class.post(SEND_PATH, options)
       parse_response
     end
 
-    def check_status(sms_id)
-      @response = self.class.get("#{GET_STATUS_PATH}/#{sms_id}")
+    def check_sms_stauts(sms_id)
+      options = default_options.dup
+      options.merge! headers: {"Accept" => "application/json"}
+      @response = self.class.get("/get-sms-status/#{sms_id}", options)
       parse_response
-    end
-
-    def basic_auth_encoded
-      Base64.encode64("#{username}:#{password}").gsub("\n", "")
     end
 
     private
