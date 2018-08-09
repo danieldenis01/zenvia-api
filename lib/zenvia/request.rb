@@ -2,7 +2,7 @@ module Zenvia
   class Request
     include HTTParty
 
-    base_uri 'https://api-rest.zenvia360.com.br/services/'
+    base_uri 'https://api-rest.zenvia.com/services/'
     SEND_PATH = "/send-sms"
 
     attr_reader :default_options, :params, :response
